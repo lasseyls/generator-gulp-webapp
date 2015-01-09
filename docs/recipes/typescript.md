@@ -1,16 +1,16 @@
 # Setting up TypeScript
 
-With this setup you all your `.ts` files in your `app/scripts/ts` directory will be compiled into `app/scripts/main.js`, with sourcemaps enabled as default.
+With this setup all your `.ts` files in your `app/scripts/ts` directory (create this directory yourself) will be compiled into `app/scripts/main.js`, with sourcemaps and incremental compilation enabled by default.
 
 
 ## Steps
 
 ### 1. Install:
-[gulp-typescript](https://github.com/ivogabe/gulp-typescript) plugin
-[event-stream](https://github.com/dominictarr/event-stream) plugin
-[gulp-concat](https://github.com/wearefractal/gulp-concat) plugin
-[gulp-sourcemaps](https://github.com/floridoo/gulp-sourcemaps) plugin
-[event-stream](https://github.com/dominictarr/event-stream) plugin
+[gulp-typescript](https://github.com/ivogabe/gulp-typescript), 
+[event-stream](https://github.com/dominictarr/event-stream), 
+[gulp-concat](https://github.com/wearefractal/gulp-concat), 
+[gulp-sourcemaps](https://github.com/floridoo/gulp-sourcemaps), 
+[event-stream](https://github.com/dominictarr/event-stream) plugins
 
 ```sh
 $ npm install --save-dev gulp-typescript
@@ -19,7 +19,7 @@ $ npm install --save-dev gulp-concat
 $ npm install --save-dev gulp-sourcemaps
 ```
 
-### 2. Add `eventStream` as variable
+### 2. Add `eventStream` as variable in your `gulpfile.js`
 ```diff
  var gulp = require('gulp');
  var $ = require('gulp-load-plugins')();
@@ -28,9 +28,9 @@ $ npm install --save-dev gulp-sourcemaps
 +var eventStream = require('event-stream');
 ```
 
-### 3. Add TypeScript configuration and create a `scripts` task
+### 3. Add TypeScript configuration and create a `scripts` task in your `gulpfile.js`
 
-This compiles `.ts` files into `.js` into the `scripts` directory and declaration files into `scripts/ts/definitions`
+This compiles `main.ts` and everything referenced from `main.ts` into one `app/scripts/main.js` and declaration files into `scripts/ts/definitions`
 
 ```js
 var tsProject = $.typescript.createProject({
@@ -53,14 +53,14 @@ gulp.task('scripts', function() {
 });
 ```
 
-### 4. Add `scripts` as a dependency of `html`
+### 4. Add `scripts` as a dependency of `html` in your `gulpfile.js`
 
 ```js
 gulp.task('html', ['styles', 'scripts'], function () {
     ...
 ```
 
-### 5. Edit your `watch` task
+### 5. Edit your `watch` task in `gulpfile.js`
 
 These changes ensure that (1) generated `.js` files trigger a live reload, and (2) edits to `.ts` files trigger recompilation.
 
